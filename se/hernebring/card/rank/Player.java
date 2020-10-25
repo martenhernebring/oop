@@ -1,4 +1,4 @@
-package se.hernebring.games.card;
+package se.hernebring.card.rank;
 
 /**@author Mårten Hernebring, Niklas Johansson, Tom Karlsson, Anton Edwards, Erik Blidner, Henrik Buller
  * A simple player model for playing any game requiring name, score and rounds or similar.

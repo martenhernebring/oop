@@ -55,4 +55,15 @@ public class ListUtils {
         }
         return negatives;
     }
+    
+    static int evenSum(List<Integer> numbers) {
+        int sum = 0;
+        for (int number : numbers) {
+            if (number % 2 == 0) {
+                // only adds even numbers to sum
+                sum += number;
+            }
+        }
+        return sum;
+    }
 }

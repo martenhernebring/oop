@@ -1,4 +1,4 @@
-package se.hernebring.games.card;
+package se.hernebring.card.rank;
 import java.util.Random;
 
 /**@author Mårten Hernebring, Niklas Johansson, Tom Karlsson, Anton Edwards, Erik Blidner, Henrik Buller
