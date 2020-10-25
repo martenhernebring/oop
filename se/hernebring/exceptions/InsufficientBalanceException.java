@@ -1,4 +1,4 @@
-package se.hernebring.bank;
+package se.hernebring.exceptions;
 
 public class InsufficientBalanceException extends Exception {
 

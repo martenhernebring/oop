@@ -1,14 +1,12 @@
-package se.hernebring.bank.test;
+package se.hernebring.bank.account;
 
 import static org.junit.jupiter.api.Assertions.*;
+import se.hernebring.exceptions.InsufficientBalanceException;
 
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import se.hernebring.bank.InsufficientBalanceException;
-import se.hernebring.bank.SavingsAccount;
 
 class SavingsAccountTest {
     private SavingsAccount accountWithHundred;

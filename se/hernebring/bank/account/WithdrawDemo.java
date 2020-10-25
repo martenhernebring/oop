@@ -1,6 +1,7 @@
-package se.hernebring.bank;
+package se.hernebring.bank.account;
 
 import java.math.BigDecimal;
+import se.hernebring.exceptions.InsufficientBalanceException;
 
 public class WithdrawDemo {
 
