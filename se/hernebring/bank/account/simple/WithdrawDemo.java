@@ -1,4 +1,4 @@
-package se.hernebring.bank.account;
+package se.hernebring.bank.account.simple;
 
 import java.math.BigDecimal;
 import se.hernebring.exceptions.InsufficientBalanceException;

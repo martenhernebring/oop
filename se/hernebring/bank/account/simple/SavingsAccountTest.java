@@ -1,4 +1,4 @@
-package se.hernebring.bank.account;
+package se.hernebring.bank.account.simple;
 
 import static org.junit.jupiter.api.Assertions.*;
 import se.hernebring.exceptions.InsufficientBalanceException;
