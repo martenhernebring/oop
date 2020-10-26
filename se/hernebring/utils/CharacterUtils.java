@@ -1,4 +1,7 @@
 package se.hernebring.utils;
+
+import java.util.List;
+
 public class CharacterUtils {
     public static boolean isConsonant(char c) {
         int res = "aouåeiyäöAOUÅIEYÄÖ".indexOf(c);
@@ -23,6 +26,25 @@ public class CharacterUtils {
     
     public enum LetterType {
         VOWEL, CONSONANT, OTHER
+    }
+    
+    static String lineWhereCharIsMostFrequent(List<String> textLines, char ch){
+        String mostFrequent = null;
+        int occurencies = 0;
+        int counter = 0;
+        for(String textLine : textLines){
+            for(char oneChar : textLine.toCharArray()){
+                if(oneChar == ch){
+                    counter++;
+                }
+            }
+            if (counter > occurencies){
+                occurencies = counter;
+                mostFrequent = textLine;
+            }
+            counter = 0;
+        }
+        return mostFrequent;
     }
 
 }
