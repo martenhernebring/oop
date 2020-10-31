@@ -4,49 +4,53 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class Reader {
 
-    public static void main(String[] args) {
+    private Table symbolFrequency = null;
 
-        final Table symbolFrequency = readFiles(args);
-
+    @Override
+    public String toString() {
         if (symbolFrequency != null) {
-            System.out.println(symbolFrequency);
+            return symbolFrequency.toString();
         } else {
-            System.err.println("There was no text-file containing symbols.");
+            return "There was no text-file containing symbols.";
         }
     }
 
-    private static Table readFiles(String[] fileNames) {
-        Table table = null;
-        Collection<String> fileLines = new ArrayList<>();
+    public Reader(String[] fileNames){
         for (String fileName : fileNames) {
-            Path filePath = Paths.get(fileName);
+            countSymbolFrequencyFromFile(fileName);
+        }
+    }
+
+    public void countSymbolFrequencyFromFile(String fileName) {
+        Path filePath = Paths.get(fileName);
             try {
-                fileLines = Files.readAllLines(filePath);
-                if (table == null) {
-                    table = new Table(fileLines);
-                } else {
-                    table.countSymbolFrequency(fileLines);
-                }
+                countSymbolFrequencyIfText(filePath);
             } catch (IllegalArgumentException iae) {
-                System.err.printf("%s: %s. File will be deleted.%n",filePath, iae.getMessage());
+                System.err.printf("%s: %s. File will be deleted.%n",filePath , iae.getMessage());
                 deleteIllegalFile(filePath); 
             } catch (IOException ioe) {
                 if (!Files.exists(filePath)) {
                     fileDoesNotExist(ioe);
                 } else {
-                    System.err.printf("File %s is not a text-file.%n", ioe.getMessage());
+                    System.err.printf("File %s is not a text-file.%n", filePath.getFileName());
                 }
             } 
-        }
-        return table;
     }
 
-    private static void deleteIllegalFile(Path filePath) {
+    private void countSymbolFrequencyIfText(Path filePath) throws IOException {
+        List<String> fileLines = Files.readAllLines(filePath);
+        if (symbolFrequency == null) {
+            symbolFrequency = new Table(fileLines);
+        } else {
+            symbolFrequency.countSymbolFrequency(fileLines);
+        }
+    }
+
+    private void deleteIllegalFile(Path filePath) {
         try{ 
             Files.delete(filePath); 
         } catch(IOException ioe) {
@@ -54,9 +58,11 @@ public class Reader {
         }     
     }
 
-    private static void fileDoesNotExist(IOException ioe) {
+    private void fileDoesNotExist(IOException ioe) {
         System.err.printf("File %s does not exist.%n", ioe.getMessage());
 	}
+
+    
 }
 
 

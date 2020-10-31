@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public class Table {
 
-    private Map<Character, Integer> symbolFrequencyTable = new TreeMap<>();;
+    private Map<Character, Integer> symbolFrequencyTable = new TreeMap<>();
 
     @Override
     public String toString() {
@@ -48,6 +48,7 @@ public class Table {
         if (words != null && words.length > 0) {
             countSymbolFrequency(words);
         } else {
+            logger.atWarn().log("File may be deleted in Reader");
             throw new IllegalArgumentException("Text has no symbols and is blank!");
         }
     }
