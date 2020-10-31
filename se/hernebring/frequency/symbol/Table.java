@@ -1,15 +1,15 @@
 package se.hernebring.frequency.symbol;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Table {
 
-    private Map<Character, Integer> symbolFrequencyTable = new HashMap<>();;
+    private Map<Character, Integer> symbolFrequencyTable = new TreeMap<>();;
 
     @Override
     public String toString() {

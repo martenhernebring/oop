@@ -1,0 +1,4 @@
+#ignore vs code files
+.vscode/
+#ignore class-files
+*.class

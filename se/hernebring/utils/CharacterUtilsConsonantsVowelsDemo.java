@@ -1,7 +1,6 @@
 package se.hernebring.utils;
 import java.util.Scanner;
 
-import se.hernebring.utils.CharacterUtils;
 import se.hernebring.utils.CharacterUtils.LetterType;
 
 public class CharacterUtilsConsonantsVowelsDemo {

@@ -115,6 +115,7 @@ class TableTest {
     @Test
     void checkIfDotsAre47() {
         addBooks();
+        System.out.println(symbolFrequencyTable);
         // assertEquals(symbolCounter.getReadOnlyTable().get('.'),47);
         // TODO
     }
@@ -122,8 +123,14 @@ class TableTest {
     @Test
     void checkIfEis4() {
         addBooks();
+        System.out.println(symbolFrequencyTable);
+        String newLine = System.getProperty("line.separator");
+        assertEquals("!: 1" + newLine, symbolFrequencyTable.toString());
         // assertEquals(symbolCounter.getReadOnlyTable().get('E'),4);
         // TODO
     }
 
+    /*
+     * !: 8 ,: 87 -: 2 .: 47 :: 10 ;: 12 A: 2 B: 3 D: 5 E: 4
+     */
 }
