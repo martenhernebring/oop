@@ -1,16 +1,20 @@
 package se.hernebring.frequency.symbol;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class Reader {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        final Collection<String> books = readFiles(args);
+        final Collection<String> textFileLines = readFiles(args);
 
-        final var symbolCounter = new Table(books);
+        final var symbolCounter = new Table(textFileLines);
 
         System.out.println(symbolCounter);
     }
@@ -21,11 +25,12 @@ public class Reader {
         }
     }
 
-    static Collection<String> readFiles(String[] fileNames) {
-        Collection<String> textFiles = new ArrayList<>();
+    static Collection<String> readFiles(String[] fileNames) throws IOException {
+        Collection<String> allLines = new ArrayList<>();
         for (String fileName : fileNames) {
-            textFiles.add(fileName);
+            List<String> fileLines = Files.readAllLines(Paths.get(fileName));
+            allLines.addAll(fileLines);
         }
-        return textFiles;
+        return allLines;
     }
 }
