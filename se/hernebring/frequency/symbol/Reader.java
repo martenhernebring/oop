@@ -6,30 +6,27 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class Reader {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        final Collection<String> textFileLines = readFiles(args);
+        Collection<String> onlyText = readFiles(args);
 
-        final var symbolCounter = new Table(textFileLines);
+        final Table symbolCounter = new Table(onlyText);
 
         System.out.println(symbolCounter);
     }
 
-    static void printFrequencyTable(Map<Character, Integer> table) {
-        for (Map.Entry<Character, Integer> entry : table.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-    }
-
-    static Collection<String> readFiles(String[] fileNames) throws IOException {
+    private static Collection<String> readFiles(String[] fileNames) {
         Collection<String> allLines = new ArrayList<>();
         for (String fileName : fileNames) {
-            List<String> fileLines = Files.readAllLines(Paths.get(fileName));
-            allLines.addAll(fileLines);
+            try {
+                List<String> fileLines = Files.readAllLines(Paths.get(fileName));
+                allLines.addAll(fileLines);
+            } catch (IOException ioe) {
+                System.err.printf("File %s does not exist.", ioe.getMessage());
+            }
         }
         return allLines;
     }
