@@ -11,7 +11,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class ReaderTest {
+class ReaderTest {
     
     Map<Character,Integer> frequencyTable;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
