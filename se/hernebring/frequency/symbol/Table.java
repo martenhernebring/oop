@@ -1,15 +1,15 @@
 package se.hernebring.frequency.symbol;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Table {
 
-    private Map<Character, Integer> frequencyTable = new TreeMap<>();
+    private Map<Character, Integer> frequencyTable = new LinkedHashMap<>();
     final static Logger logger = LoggerFactory.getLogger(Table.class);
     
 
