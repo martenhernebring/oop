@@ -9,70 +9,71 @@ import org.slf4j.LoggerFactory;
 
 public class Table {
 
-    private Map<Character, Integer> symbolFrequencyTable = new TreeMap<>();
+    private Map<Character, Integer> frequencyTable = new TreeMap<>();
+    final static Logger logger = LoggerFactory.getLogger(CharCountApp.class);
 
     @Override
     public String toString() {
         var tableBuilder = new StringBuilder();
         String newLine = System.getProperty("line.separator");
-        for (Map.Entry<Character, Integer> entry : symbolFrequencyTable.entrySet()) {
+        for (Map.Entry<Character, Integer> entry : frequencyTable.entrySet()) {
             tableBuilder.append(entry.getKey() + ": " + entry.getValue() + newLine);
         }
+        logger.atInfo().log("A string representation of table was successfully built.");
         return tableBuilder.toString();
     }
 
     public Table(Collection<String> textCollection) {
-        countSymbolFrequency(textCollection);
+        logger.atInfo().log("New Table was created from a text collection.");
+        addSymbolFrequency(textCollection);
     }
 
     public Table(String textUnit) {
-        countSymbolFrequency(textUnit);
+        logger.atInfo().log("New Table was created from a text unit.");
+        addSymbolFrequency(textUnit);
     }
 
-    public void countSymbolFrequency(Collection<String> textCollection) {
+    public void addSymbolFrequency(Collection<String> textCollection) {
         for (String textUnit : textCollection) {
-            countSymbolFrequency(textUnit);
+            addSymbolFrequency(textUnit);
         }
     }
 
-    final static Logger logger = LoggerFactory.getLogger(Reader.class);
-
-    public void countSymbolFrequency(String textUnit) {
+    public void addSymbolFrequency(String textUnit) {
         logger.atDebug().log("Text before split: " + textUnit);
         String[] words = textUnit.split("\\s+");
         logger.atDebug().log("Text after split: " + words);
-        countIfSymbol(words);
+        addIfSymbol(words);
     }
 
-    private void countIfSymbol(String[] words) {
+    private void addIfSymbol(String[] words) {
         if (words != null && words.length > 0) {
-            countSymbolFrequency(words);
+            addFrequency(words);
         } else {
-            logger.atWarn().log("File may be deleted in Reader");
+            logger.atWarn().log("File will be deleted in LinesReader");
             throw new IllegalArgumentException("Text has no symbols and is blank!");
         }
     }
 
-    private void countSymbolFrequency(String[] symbolWords) {
+    private void addFrequency(String[] symbolWords) {
         for (String symbolWord : symbolWords) {
-                countSymbolFrequency(symbolWord.toCharArray());
+            addFrequency(symbolWord.toCharArray());
         }
     }
 
-    private void countSymbolFrequency(char[] symbols) {
+    private void addFrequency(char[] symbols) {
         for (char symbol : symbols) {
-            countSymbolFrequency(symbol);
+            addFrequency(symbol);
         }
     }
 
-    // 1 (integer) looks too much like l (variable)
-    private static final int ONE = 1;
+    private static final int ONE = 1; // 1 (integer) looks too much like l (variable)
 
-    private void countSymbolFrequency(char symbol) {
-        if (symbolFrequencyTable.containsKey(symbol)) {
-            symbolFrequencyTable.put(symbol, symbolFrequencyTable.get(symbol) + ONE);
+    private void addFrequency(char symbol) {
+        if (frequencyTable.containsKey(symbol)) {
+            frequencyTable.put(symbol, frequencyTable.get(symbol) + ONE);
         } else {
-            symbolFrequencyTable.put(symbol, ONE);
+            frequencyTable.put(symbol, ONE);
         }
     }
 
