@@ -10,7 +10,8 @@ import org.slf4j.LoggerFactory;
 public class Table {
 
     private Map<Character, Integer> frequencyTable = new TreeMap<>();
-    final static Logger logger = LoggerFactory.getLogger(CharCountApp.class);
+    final static Logger logger = LoggerFactory.getLogger(Table.class);
+    
 
     @Override
     public String toString() {
@@ -19,7 +20,6 @@ public class Table {
         for (Map.Entry<Character, Integer> entry : frequencyTable.entrySet()) {
             tableBuilder.append(entry.getKey() + ": " + entry.getValue() + newLine);
         }
-        logger.atInfo().log("A string representation of table was successfully built.");
         return tableBuilder.toString();
     }
 
@@ -40,9 +40,7 @@ public class Table {
     }
 
     public void addSymbolFrequency(String textUnit) {
-        logger.atDebug().log("Text before split: " + textUnit);
         String[] words = textUnit.split("\\s+");
-        logger.atDebug().log("Text after split: " + words);
         addIfSymbol(words);
     }
 

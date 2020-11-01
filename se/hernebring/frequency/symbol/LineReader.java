@@ -6,15 +6,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LineReader {
 
     private Table textFileSymbolFrequency = null;
+    final static Logger logger = LoggerFactory.getLogger(LineReader.class);
 
     @Override
     public String toString() {
         if (textFileSymbolFrequency != null) {
             return textFileSymbolFrequency.toString();
         } else {
+            logger.atError().log("Class implementation is useless.");
             return "There was no text-file containing symbols.";
         }
     }
@@ -28,14 +33,17 @@ public class LineReader {
     public void countSymbolFrequencyFrom(String filePath) {
         Path file = Paths.get(filePath);
             try {
+                logger.atInfo().log("File "+file.getFileName()+" was opened.");
                 countSymbolFrequencyIfText(file);
             } catch (IllegalArgumentException iae) {
                 System.err.printf("%s: %s. File will be deleted.%n",filePath , iae.getMessage());
                 deleteIllegal(file); 
             } catch (IOException ioe) {
                 if (!Files.exists(file)) {
+                    logger.atWarn().log("File "+file.getFileName()+" didnt't exist!");
                     fileDoesNotExist(ioe);
                 } else {
+                    logger.atInfo().log("File "+file.getFileName()+" was not a text-file.");
                     System.err.printf("File %s is not a text-file.%n", file.getFileName());
                 }
             } 
