@@ -2,10 +2,16 @@ package se.hernebring.frequency.symbol;
 
 import java.util.Arrays;
 
+/**An application for counting symbols (non-blank characters) in text-files
+ * @author Mårten Hernebring, Java20 @version 1 
+ * */
 public class FileApp {
     private static boolean caseMatters = true;
     private static String[] fileNames;
     
+    /**Count frequency from files. Use -i for ignore case.
+     * @param args first argument is file or -i flag, rest other files
+     * */
     public static void main(String[] args) {
         if (args.length > 0) {
             fileNames = args;

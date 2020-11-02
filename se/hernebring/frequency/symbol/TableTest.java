@@ -52,4 +52,10 @@ class TableTest {
         System.out.println(symbolFrequency.getCaseInsensitive());
     }
 
+    @Test
+    void caseInsensitivity() {
+        String test = "testUpperCase";
+        symbolFrequency = new Table(test);
+        System.out.println(symbolFrequency.getCaseInsensitive());
+    }
 }

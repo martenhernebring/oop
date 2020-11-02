@@ -9,17 +9,25 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** A class for parsing files to count the frequency of symbols. String table is produced.
+ * @author Mårten Hernebring, Java20 @version 1*/
 public class FileParser {
 
     private Table textSymbolFrequency = null;
     private final static Logger logger = LoggerFactory.getLogger(FileParser.class);
 
+    /** Check all symbols in the file paths and saves them by frequency.
+     * @param filePaths path to text file to examined
+     * */
     public FileParser(String[] filePaths) {
         for (String filePath : filePaths) {
             open(Paths.get(filePath));
         }
     }
     
+    /** Check all symbols in the file path and saves them by frequency.
+     * @param textFile path to the text file to examined
+     * */
     public void open(Path textFile) {
         try {
             read(textFile);
@@ -44,6 +52,7 @@ public class FileParser {
         }
     }
     
+    //Text files with only White-space should be deleted
     private void delete(Path textFile, IllegalArgumentException iae) {
         System.err.printf("%s: %s. File will be deleted.%n", textFile, iae.getMessage());
         try {
@@ -63,6 +72,9 @@ public class FileParser {
         System.err.printf("File %s is not a text-file.%n", textFile.getFileName());   
     }
     
+    /** To print out the symbol frequency table case sensitive
+     * @return String representation of the the symbol frequency table with case.
+     * */
     @Override
     public String toString() {
         if (textSymbolFrequency != null) {
@@ -73,6 +85,9 @@ public class FileParser {
         }
     }
 
+    /** To print out the symbol frequency table case insensitive
+     * @return String representation of the the symbol frequency table ignoring case.
+     * */
     public String toCaseInsensitive() {
         if (textSymbolFrequency != null) {
             return textSymbolFrequency.getCaseInsensitive();

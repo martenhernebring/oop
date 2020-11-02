@@ -7,9 +7,10 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//Table used by FileParser who does the error handling
 class Table {
 
-    private Map<Character, Integer> frequencyTable = new TreeMap<>();
+    private Map<Character, Integer> frequencyTable = new TreeMap<>(); //for sorted chars
     private final static Logger logger = LoggerFactory.getLogger(Table.class);
 
     public Table(Collection<String> textCollection) {
@@ -34,7 +35,7 @@ class Table {
     }
 
     public void add(String textUnit) {
-        String[] words = textUnit.split("\\s+");
+        String[] words = textUnit.split("\\s+"); //removes White space chars
         System.out.println(words.length);
         if (words != null && words.length > 0) {
             add(words);
@@ -45,7 +46,7 @@ class Table {
     }
 
 
-    private void add(String[] symbolWords) {
+    private void add(String[] symbolWords) { //only non-White space is allowed other add
         for (String symbolWord : symbolWords) {
             add(symbolWord.toCharArray());
         }
@@ -61,7 +62,7 @@ class Table {
         add(symbol, 1);
     }
 
-    private void add(char symbol, int value) {
+    private void add(char symbol, int value) { //for adding case-insensitivity
         if (frequencyTable.containsKey(symbol)) {
             frequencyTable.put(symbol, frequencyTable.get(symbol) + value);
         } else {
@@ -69,30 +70,30 @@ class Table {
         }
     }
 
-    @Override
+    @Override //public is forced
     public String toString() {
         var values = new StringBuilder();
-        String newLine = System.getProperty("line.separator");
+        String newLine = System.getProperty("line.separator"); //vary per OS
         for (Map.Entry<Character, Integer> entry : frequencyTable.entrySet()) {
             values.append(entry.getKey() + ": " + entry.getValue() + newLine);
         }
         return values.toString();
     }
 
-    public String getCaseInsensitive() {
+    String getCaseInsensitive() {
         Table caseInsensitiveCopy = new Table(frequencyTable);
         for (Character ch = 'A'; ch <= 'Z'; ch++) {
             if (frequencyTable.containsKey(ch)) {
                 int value = frequencyTable.get(ch);
                 char lowerCase = Character.toLowerCase(ch);
-                caseInsensitiveCopy.add(lowerCase, value);
-                caseInsensitiveCopy.remove(ch);
+                caseInsensitiveCopy.add(lowerCase, value); //e.g. a=a+A
+                caseInsensitiveCopy.remove(ch); //e.g. A is removed
             }
         }
         return caseInsensitiveCopy.toString();
     }
 
-    private void remove(char symbol) {
+    private void remove(char symbol) { //for internal use
         frequencyTable.remove(symbol);
     }
 
