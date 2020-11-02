@@ -25,7 +25,7 @@ public class FileParser {
         }
     }
     
-    /** Check all symbols in the file path and saves them by frequency.
+    /** Check all symbols in the file path and saves the frequency by char value.
      * @param textFile path to the text file to examined
      * */
     public void open(Path textFile) {
@@ -73,7 +73,7 @@ public class FileParser {
     }
     
     /** To print out the symbol frequency table case sensitive
-     * @return String representation of the the symbol frequency table with case.
+     * @return String representation of the symbol frequency table with case.
      * */
     @Override
     public String toString() {
@@ -86,7 +86,7 @@ public class FileParser {
     }
 
     /** To print out the symbol frequency table case insensitive
-     * @return String representation of the the symbol frequency table ignoring case.
+     * @return String representation of the symbol frequency table ignoring case.
      * */
     public String toCaseInsensitive() {
         if (textSymbolFrequency != null) {
