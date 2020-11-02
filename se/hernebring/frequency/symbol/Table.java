@@ -74,4 +74,27 @@ public class Table {
         }
     }
 
+    public Table(Map<Character, Integer> original) {
+        frequencyTable = original;
+    }
+
+    public String getCaseInsensitive(){
+        Table caseInsensitiveCopy = new Table(frequencyTable);
+        for(Character ch = 'A'; ch <= 'Z'; ch++){
+            if(frequencyTable.containsKey(ch)){
+                int value = frequencyTable.get(ch);
+                char lowerCase = Character.toLowerCase(ch);
+                for(int i = 0; i< value; i++){
+                    caseInsensitiveCopy.addFrequency(lowerCase);
+                }
+                caseInsensitiveCopy.removeKey(ch);
+            }
+        }
+        return caseInsensitiveCopy.toString();
+    }
+
+    private void removeKey(char symbol){
+        frequencyTable.remove(symbol);
+    }
+
 }

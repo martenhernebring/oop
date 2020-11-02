@@ -68,7 +68,16 @@ public class FileParser {
 
     private void fileDoesNotExist(IOException ioe) {
         System.err.printf("File %s does not exist.%n", ioe.getMessage());
-	}
+    }
+    
+    public String getCaseInsensitive(){
+        if (textFileSymbolFrequency != null) {
+            return textFileSymbolFrequency.getCaseInsensitive();
+        } else {
+            logger.atError().log("Class implementation is useless.");
+            throw new NullPointerException("There was no text-file containing symbols.");
+        }
+    }
 
     
 }
