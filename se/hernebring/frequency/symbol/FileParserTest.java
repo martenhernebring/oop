@@ -2,40 +2,60 @@ package se.hernebring.frequency.symbol;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class FileParserTest {
-    FileParser textSymbolFrequency;
-    String[] textFilePaths = {"paavo.txt", "spraken.txt"};
-    String[] worthlessFilePath = {"worthless.text"};
-    String[] notTextFile = {"FileParserText.java"};
-    
-    @Test
+    private String prefix = "C:\\Users\\HP\\Documents\\Yrgo\\Java\\GitHub\\oop\\";
+    //private String[] temp = {prefix+"temp.txt"};
+    private String[] notTextFile = {prefix+"FileParser.class"};
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+    private final PrintStream originalErr = System.err;
+
+    @BeforeEach
+    public void init() {
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+    }
+
+    @AfterEach
+    public void restoreStreams() {
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+    }
+
+    @Test @SuppressWarnings("unused")
     void notATextFile() {
-        try {
-            textSymbolFrequency = new FileParser(notTextFile);
-            fail("Unexpected addition of non text-file");
-        } catch (IllegalArgumentException iae) {
-            System.out.println("This is ok: " + iae.getMessage());
-        }
+        FileParser textSymbolFrequency = new FileParser(notTextFile);
+        String output = String.format("[main] INFO se.hernebring.frequency.symbol.FileParser - File FileParser.class was opened.%n"+
+            "[main] INFO se.hernebring.frequency.symbol.FileParser - File FileParser.class was not a text-file.%n"+
+            "File FileParser.class is not a text-file.%n");
+        assertEquals(output, errContent.toString());
     }
     
-    /*@Test
+    /*@Test @SuppressWarnings("unused")
     void deleteWorthlessFile() {
-        try {
-            textSymbolFrequency = new FileParser(worthlessFilePath);
-            fail("Unexpected addition of blank file");
-        } catch (IllegalArgumentException iae) {
-            System.out.println("This is ok: " + iae.getMessage());
-        }
+        FileParser textSymbolFrequency = new FileParser(temp);
+        String output = String.format("[main] INFO se.hernebring.frequency.symbol.FileParser - File temp.txt was opened.%n"
+            +"[main] INFO se.hernebring.frequency.symbol.Table - New Table was created from a text collection.%n"
+            +"[main] WARN se.hernebring.frequency.symbol.Table - File will be deleted in LinesReader%n"
+            +prefix+"temp.txt: Text has no symbols and is blank!. File will be deleted.%n");
+        assertEquals(output, errContent.toString());
     }*/
     
-    /*@Test
+    @Test
     void readPaavoAndSpraken(){
-        textSymbolFrequency = new FileParser(textFilePaths);
+        String[] textFilePaths = {prefix+"paavo.txt",prefix+"spraken.txt"};
+        FileParser textSymbolFrequency = new FileParser(textFilePaths);
         assertNotNull(textSymbolFrequency);
         System.out.println(textSymbolFrequency);
-    }*/
+    }
     
     
 }
