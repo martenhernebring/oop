@@ -9,10 +9,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LineReader {
+public class FileParser {
 
     private Table textFileSymbolFrequency = null;
-    final static Logger logger = LoggerFactory.getLogger(LineReader.class);
+    private final static Logger logger = LoggerFactory.getLogger(FileParser.class);
 
     @Override
     public String toString() {
@@ -20,11 +20,11 @@ public class LineReader {
             return textFileSymbolFrequency.toString();
         } else {
             logger.atError().log("Class implementation is useless.");
-            return "There was no text-file containing symbols.";
+            throw new NullPointerException("There was no text-file containing symbols.");
         }
     }
 
-    public LineReader(String[] textFilePaths){
+    public FileParser(String[] textFilePaths){
         for (String textFilePath : textFilePaths) {
             countSymbolFrequencyFrom(textFilePath);
         }
