@@ -64,13 +64,15 @@ public class Table {
         }
     }
 
-    private static final int ONE = 1; // 1 (integer) looks too much like l (variable)
-
     private void addFrequency(char symbol) {
+        addFrequency(symbol, 1);
+    }
+
+    private void addFrequency(char symbol, int value) {
         if (frequencyTable.containsKey(symbol)) {
-            frequencyTable.put(symbol, frequencyTable.get(symbol) + ONE);
+            frequencyTable.put(symbol, frequencyTable.get(symbol) + value);
         } else {
-            frequencyTable.put(symbol, ONE);
+            frequencyTable.put(symbol, value);
         }
     }
 
@@ -84,16 +86,14 @@ public class Table {
             if(frequencyTable.containsKey(ch)){
                 int value = frequencyTable.get(ch);
                 char lowerCase = Character.toLowerCase(ch);
-                for(int i = 0; i< value; i++){
-                    caseInsensitiveCopy.addFrequency(lowerCase);
-                }
+                caseInsensitiveCopy.addFrequency(lowerCase, value);
                 caseInsensitiveCopy.removeKey(ch);
             }
         }
         return caseInsensitiveCopy.toString();
     }
 
-    private void removeKey(char symbol){
+    private void removeKey(char symbol) {
         frequencyTable.remove(symbol);
     }
 
