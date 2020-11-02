@@ -11,75 +11,75 @@ import org.slf4j.LoggerFactory;
 
 public class FileParser {
 
-    private Table textFileSymbolFrequency = null;
+    private Table textSymbolFrequency = null;
     private final static Logger logger = LoggerFactory.getLogger(FileParser.class);
 
-    @Override
-    public String toString() {
-        if (textFileSymbolFrequency != null) {
-            return textFileSymbolFrequency.toString();
+    public FileParser(String[] filePaths) {
+        for (String filePath : filePaths) {
+            open(Paths.get(filePath));
+        }
+    }
+    
+    public void open(Path textFile) {
+        try {
+            read(textFile);
+        } catch (IllegalArgumentException iae) {
+            delete(textFile, iae);
+        } catch (IOException ioe) {
+            if (!Files.exists(textFile)) {
+                doesNotExist(textFile, ioe);
+            } else {
+                isNot(textFile,ioe);
+            }
+        }
+    }
+
+    private void read(Path textFile) throws IOException {
+        logger.atInfo().log("File " + textFile.getFileName() + " was opened.");
+        List<String> extractedLines = Files.readAllLines(textFile);
+        if (textSymbolFrequency == null) {
+            textSymbolFrequency = new Table(extractedLines);
         } else {
-            logger.atError().log("Class implementation is useless.");
-            throw new NullPointerException("There was no text-file containing symbols.");
+            textSymbolFrequency.add(extractedLines);
         }
     }
-
-    public FileParser(String[] textFilePaths){
-        for (String textFilePath : textFilePaths) {
-            countSymbolFrequencyFrom(textFilePath);
+    
+    private void delete(Path textFile, IllegalArgumentException iae) {
+        System.err.printf("%s: %s. File will be deleted.%n", textFile, iae.getMessage());
+        try {
+            Files.delete(textFile);
+        } catch (IOException ioe) {
+            doesNotExist(textFile, ioe);
         }
     }
-
-    public void countSymbolFrequencyFrom(String filePath) {
-        Path file = Paths.get(filePath);
-            try {
-                logger.atInfo().log("File "+file.getFileName()+" was opened.");
-                countSymbolFrequencyIfText(file);
-            } catch (IllegalArgumentException iae) {
-                System.err.printf("%s: %s. File will be deleted.%n",filePath , iae.getMessage());
-                deleteIllegal(file); 
-            } catch (IOException ioe) {
-                if (!Files.exists(file)) {
-                    logger.atWarn().log("File "+file.getFileName()+" didnt't exist!");
-                    fileDoesNotExist(ioe);
-                } else {
-                    logger.atInfo().log("File "+file.getFileName()+" was not a text-file.");
-                    System.err.printf("File %s is not a text-file.%n", file.getFileName());
-                }
-            } 
-    }
-
-    private void countSymbolFrequencyIfText(Path file) throws IOException {
-        List<String> extractedLines = Files.readAllLines(file);
-        if (textFileSymbolFrequency == null) {
-            textFileSymbolFrequency = new Table(extractedLines);
-        } else {
-            textFileSymbolFrequency.addSymbolFrequency(extractedLines);
-        }
-    }
-
-    private void deleteIllegal(Path file) {
-        try{ 
-            Files.delete(file); 
-        } catch(IOException ioe) {
-            fileDoesNotExist(ioe);
-        }     
-    }
-
-    private void fileDoesNotExist(IOException ioe) {
+    
+    private void doesNotExist(Path textFile, IOException ioe) {
+        logger.atWarn().log("File " + textFile.getFileName() + " didnt't exist!");
         System.err.printf("File %s does not exist.%n", ioe.getMessage());
     }
     
-    public String getCaseInsensitive(){
-        if (textFileSymbolFrequency != null) {
-            return textFileSymbolFrequency.getCaseInsensitive();
+    private void isNot(Path textFile, IOException ioe) {
+        logger.atInfo().log("File " + textFile.getFileName() + " was not a text-file.");
+        System.err.printf("File %s is not a text-file.%n", textFile.getFileName());   
+    }
+    
+    @Override
+    public String toString() {
+        if (textSymbolFrequency != null) {
+            return textSymbolFrequency.toString();
         } else {
             logger.atError().log("Class implementation is useless.");
             throw new NullPointerException("There was no text-file containing symbols.");
         }
     }
 
-    
+    public String toCaseInsensitive() {
+        if (textSymbolFrequency != null) {
+            return textSymbolFrequency.getCaseInsensitive();
+        } else {
+            logger.atError().log("Class implementation is useless.");
+            throw new NullPointerException("There was no text-file containing symbols.");
+        }
+    }
+
 }
-
-

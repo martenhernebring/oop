@@ -7,68 +7,61 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Table {
+class Table {
 
     private Map<Character, Integer> frequencyTable = new TreeMap<>();
     private final static Logger logger = LoggerFactory.getLogger(Table.class);
 
-    @Override
-    public String toString() {
-        var tableBuilder = new StringBuilder();
-        String newLine = System.getProperty("line.separator");
-        for (Map.Entry<Character, Integer> entry : frequencyTable.entrySet()) {
-            tableBuilder.append(entry.getKey() + ": " + entry.getValue() + newLine);
-        }
-        return tableBuilder.toString();
-    }
-
     public Table(Collection<String> textCollection) {
         logger.atInfo().log("New Table was created from a text collection.");
-        addSymbolFrequency(textCollection);
+        add(textCollection);
     }
 
     public Table(String textUnit) {
         logger.atInfo().log("New Table was created from a text unit.");
-        addSymbolFrequency(textUnit);
+        add(textUnit);
     }
 
-    public void addSymbolFrequency(Collection<String> textCollection) {
+    public Table(Map<Character, Integer> original) {
+        logger.atInfo().log("New Table copy was created from internal method.");
+        frequencyTable = original;
+    }
+
+    public void add(Collection<String> textCollection) {
         for (String textUnit : textCollection) {
-            addSymbolFrequency(textUnit);
+            add(textUnit);
         }
     }
 
-    public void addSymbolFrequency(String textUnit) {
+    public void add(String textUnit) {
         String[] words = textUnit.split("\\s+");
-        addIfSymbol(words);
-    }
-
-    private void addIfSymbol(String[] words) {
+        System.out.println(words.length);
         if (words != null && words.length > 0) {
-            addFrequency(words);
+            add(words);
         } else {
             logger.atWarn().log("File will be deleted in LinesReader");
             throw new IllegalArgumentException("Text has no symbols and is blank!");
         }
     }
 
-    private void addFrequency(String[] symbolWords) {
+
+    private void add(String[] symbolWords) {
         for (String symbolWord : symbolWords) {
-            addFrequency(symbolWord.toCharArray());
+            add(symbolWord.toCharArray());
         }
     }
 
-    private void addFrequency(char[] symbols) {
+    private void add(char[] symbols) {
         for (char symbol : symbols) {
-            addFrequency(symbol);
+            add(symbol);
         }
     }
 
-    private void addFrequency(char symbol) {
-        addFrequency(symbol, 1);
+    private void add(char symbol) {
+        add(symbol, 1);
     }
 
-    private void addFrequency(char symbol, int value) {
+    private void add(char symbol, int value) {
         if (frequencyTable.containsKey(symbol)) {
             frequencyTable.put(symbol, frequencyTable.get(symbol) + value);
         } else {
@@ -76,24 +69,30 @@ public class Table {
         }
     }
 
-    public Table(Map<Character, Integer> original) {
-        frequencyTable = original;
+    @Override
+    public String toString() {
+        var values = new StringBuilder();
+        String newLine = System.getProperty("line.separator");
+        for (Map.Entry<Character, Integer> entry : frequencyTable.entrySet()) {
+            values.append(entry.getKey() + ": " + entry.getValue() + newLine);
+        }
+        return values.toString();
     }
 
-    public String getCaseInsensitive(){
+    public String getCaseInsensitive() {
         Table caseInsensitiveCopy = new Table(frequencyTable);
-        for(Character ch = 'A'; ch <= 'Z'; ch++){
-            if(frequencyTable.containsKey(ch)){
+        for (Character ch = 'A'; ch <= 'Z'; ch++) {
+            if (frequencyTable.containsKey(ch)) {
                 int value = frequencyTable.get(ch);
                 char lowerCase = Character.toLowerCase(ch);
-                caseInsensitiveCopy.addFrequency(lowerCase, value);
-                caseInsensitiveCopy.removeKey(ch);
+                caseInsensitiveCopy.add(lowerCase, value);
+                caseInsensitiveCopy.remove(ch);
             }
         }
         return caseInsensitiveCopy.toString();
     }
 
-    private void removeKey(char symbol) {
+    private void remove(char symbol) {
         frequencyTable.remove(symbol);
     }
 

@@ -2,6 +2,9 @@ package se.hernebring.frequency.symbol;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.junit.jupiter.api.Test;
 
 class TableTest {
@@ -22,7 +25,6 @@ class TableTest {
 
     @Test
     void addExclamationMark() {
-
         String exclamationMark = "!";
         try {
             symbolFrequency = new Table(exclamationMark);
@@ -32,6 +34,22 @@ class TableTest {
         }
         String newLine = System.getProperty("line.separator");
         assertEquals("!: 1" + newLine, symbolFrequency.toString());
+    }
+    
+    @Test
+    void addTextCollection() {
+        Collection<String> uppgift = new ArrayList<>();
+        uppgift.add("Du skall skapa ett program som skapar en frekvenstabell över tecknen i en given uppsättning textfiler. Det vill\n" + 
+                "säga att den skall räkna hur många gånger varje tecken förekommer och skriva ut detta antal.");
+        uppgift.add("De filer programmet skall undersöka anges på kommandoraden.");
+        uppgift.add("Om programmet inte kan öppna vissa av filerna skall användaren informeras om detta (på System.err) men\n" + 
+                "frekvensinformation skall skrivas ut som normalt för de filer som gick att läsa.");
+        uppgift.add("Räkna inte blanktecken som t.ex. nyrader och mellanslag.");
+        uppgift.add("Extra bonusfunktion (inga extra poäng): Om flaggan -i anges som första argument skall programmet inte\n" + 
+                "skilja på stora och små bokstäver.");
+        symbolFrequency = new Table(uppgift);
+        assertNotNull(symbolFrequency);
+        System.out.println(symbolFrequency.getCaseInsensitive());
     }
 
 }
