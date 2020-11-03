@@ -1,6 +1,8 @@
 package se.hernebring.frequency.symbol;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class FileParserTest {
-    private String prefix = "/home/marten/eclipse-workspace/oop/src/";
+    private String prefix = "C:\\Users\\HP\\Documents\\Yrgo\\Java\\GitHub\\oop\\";
     private String[] temp = {prefix+"temp.txt"};
     private String[] notTextFile = {prefix+"."};
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -59,14 +61,16 @@ class FileParserTest {
     
     @Test
     void nullPointerTest() {
-        String[] newLines = {"\n","\n","\n"};
+        String[] tabs = {"\t","\t","\t"};
         FileParser fileParser = null;
         try {
-            fileParser = new FileParser(newLines);
+            fileParser = new FileParser(tabs);
             System.out.println(fileParser);
             fail("Unexpected counting non-symbol character");
-        } catch (NullPointerException ex) {
-            System.out.println("This is ok: " + ex.getMessage());
+        } catch (NullPointerException npe) {
+            System.out.println("This is ok: " + npe.getMessage());
+        } catch (java.nio.file.InvalidPathException ipe) {
+            System.out.println("This is ok: " + ipe.getMessage());
         }
     }
     

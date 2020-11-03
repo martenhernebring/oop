@@ -1,6 +1,9 @@
 package se.hernebring.frequency.symbol;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,13 +52,6 @@ class TableTest {
                 "skilja på stora och små bokstäver.");
         symbolFrequency = new Table(uppgift);
         assertNotNull(symbolFrequency);
-        System.out.println(symbolFrequency.getCaseInsensitive());
-    }
-
-    @Test
-    void caseInsensitivity() {
-        String test = "testUpperCase";
-        symbolFrequency = new Table(test);
         System.out.println(symbolFrequency.getCaseInsensitive());
     }
 }
